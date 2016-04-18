@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	div{
+		width: 200px;
+		height: 200px;
+		overflow: hidden;
+	}
+	ul{
+		padding: 0;
+		list-style: none;
+		position: relative;
+	}
+	li{
+		width: 200px;
+		height: 200px;
+		float: left;
+	}
+</style>
+<body>
+	<div>
+		<ul>
+			<li style="background: red">1</li>
+			<li style="background: green">2</li>
+			<li style="background: orange">3</li>
+			<li style="background: blue">4</li>
+			<li style="background: yellow">5</li>
+		</ul>
+	</div>
+	<span id="prev">Previous color</span>
+	<span id="next">Next color</span>
+	<script>
+		var list = document.querySelector("ul");
+		var elements = list.children.length;
+		var widthUl = elements*200;
+		list.style.width = widthUl + "px";
+		var limit = (elements-1)*200;
+
+		var spanNext = document.querySelector("#next");
+		spanNext.onclick = GetNextColor;
+		function GetNextColor() {
+			if (list.style.left){
+				var delta = parseInt(list.style.left);
+				if (delta == -(limit)){
+					list.style.cssText = "left: 0px; width:" + widthUl + "px";
+				}
+				else{
+					var some = delta - 200;
+					list.style.cssText = "left: " + some + "px; width:" + widthUl + "px";
+				}
+			}
+			else{
+				list.style.cssText = "left: -200px; width:" + widthUl + "px";
+			}			
+		}
+
+		var spanPrev = document.querySelector("#prev");
+		spanPrev.onclick = GetPreviousColor;
+		function GetPreviousColor() {
+			if (list.style.left){
+				var delta = parseInt(list.style.left);
+				if (delta == 0){
+					list.style.cssText = "left: " + -(limit) + "px; width:" + widthUl + "px";
+				}
+				else{
+					var some = delta + 200;
+					list.style.cssText = "left: " + some + "px; width:" + widthUl + "px";
+				}
+			}
+			else{
+				list.style.cssText = "left: 0px; width:" + widthUl + "px";
+			}
+		}
+	</script>
+</body>
+</html>

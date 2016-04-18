@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.mainScreen{
+			width: 240px;
+			height: 320px;
+		}
+		ul{
+			padding: 0;
+			list-style: none;
+			position: relative;
+		}
+		li{
+			width: 50px;
+			height: 50px;
+			float: left;
+			margin-right: 10px;
+		}
+		li img{
+			width: 50px;
+			height: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<ul>
+			<li><img src="cocos.jpg"></li>
+			<li><img src="straw.jpg"></li>
+			<li><img src="icecream.jpg"></li>
+			<li><img src="purple.jpg"></li>
+		</ul>
+	</div>
+	<div id="divWithSpans">
+		<span id="prev" data-attr="prev">Previous color</span>
+		<span id="next"  data-attr="next">Next color</span>
+	</div>
+	<script>
+		function Slider( ul, controls, classForDiv) {
+			this.ul = ul;
+			this.controls = controls;
+			this.classForDiv = classForDiv;
+		};
+		Slider.prototype.Init = function() {
+			var picture = '<img src="cocos.jpg">';
+			var screenDiv = '<div class="' + this.classForDiv + '">'+ picture + '</div>';
+			this.ul.insertAdjacentHTML("beforeBegin", screenDiv);
+			for (var i = 0; i < this.ul.children.length; i++) {
+				if (this.ul.children[i].innerHTML == picture) {
+					this.ul.children[i].classList.add("active");
+				}
+			}
+			this.ul.addEventListener("click", this.DisplayPictureByClick);
+			this.controls.addEventListener("click", this.GetNextPrevPicture.bind(this));
+		}
+		Slider.prototype.DisplayPictureByClick = function(e) {
+			for (var i = 0; i < this.children.length; i++) {
+				if (this.children[i].classList.contains("active")) {
+					this.children[i].classList.remove("active");
+				}
+			}
+			var target = e.target;
+			e.target.parentElement.classList.add("active");
+			if (target.getAttribute("src")) {
+				var attrSrc = target.getAttribute("src");
+				var screen = document.querySelector(".mainScreen");
+				screen.innerHTML = "<img src='" + attrSrc + "'>";
+			}				
+		}
+		Slider.prototype.GetNextPrevPicture = function(e) {
+			var target = e.target;
+			if (target.getAttribute("data-attr")) {
+				var attr = target.getAttribute("data-attr");
+				var screen = document.querySelector(".mainScreen");
+				var clickedLi;
+				for (var i = 0; i < this.ul.children.length; i++) {
+					if (this.ul.children[i].classList.contains("active")) {
+						clickedLi = this.ul.children[i];
+						break;
+					}
+				}
+				if (attr == "next") {
+					if (clickedLi.nextElementSibling) {
+						clickedLi.classList.remove("active");
+						clickedLi.nextElementSibling.classList.add("active");
+						screen.innerHTML = clickedLi.nextElementSibling.innerHTML;
+					}
+				}
+				else{					
+					if (attr == "prev") {
+						if (clickedLi.previousElementSibling) {
+							clickedLi.classList.remove("active");
+							clickedLi.previousElementSibling.classList.add("active");
+							screen.innerHTML = clickedLi.previousElementSibling.innerHTML;
+						}
+					}
+				}
+			}
+		}
+		var sli = new Slider(document.querySelector("ul"), document.querySelector("#divWithSpans"), 'mainScreen');
+		sli.Init();
+	</script>	
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	div.val-slider-general-news{
+		width: 200px;
+		height: 200px;
+		overflow: hidden;
+	}
+	ul{
+		padding: 0;
+		list-style: none;
+		position: relative;
+		width: 1000px;
+	}
+	li{
+		width: 200px;
+		height: 200px;
+		float: left;
+	}
+</style>
+<body>
+	<div class="val-slider-general-news">
+		<ul class="val-list-slider">
+			<li style="background: red">1</li>
+			<li style="background: green">2</li>
+			<li style="background: orange">3</li>
+			<li style="background: blue">4</li>
+			<li style="background: yellow">5</li>
+		</ul>
+	</div>
+	<div class="val-display-controls"></div>
+	<script>
+		function _slider(currentUl, divForSpans) {
+			if (!currentUl) {
+				return;
+				console.log("no 1");
+			};
+			this.CreateSpans(currentUl, divForSpans);
+			console.log("yes 1");
+		};
+		_slider.prototype.CreateSpans = function(currentUl, divForSpans) {	
+			var readySpanHTML = "";
+			for (var i = 0; i < currentUl.children.length; i++) {
+				currentUl.children[i].setAttribute("data-slide", i+1);
+				currentUl.children[i].innerHTML = (i+i);
+				readySpanHTML += "<span data-controls='"+ (i+1) +"'>" + i + "</span>";
+			};
+			divForSpans.innerHTML = readySpanHTML;
+			divForSpans.children[0].classList.add("active-slide");
+			divForSpans.addEventListener("click", this.ChangeSlide);
+		};
+		_slider.prototype.ChangeSlide = function(e) {
+			
+			var spanAttrData = e.target.getAttribute("data-controls");
+			var oldSlideData = document.querySelector("li[data-slide='" + spanAttrData +"']")
+				.getAttribute("data-slide");
+			console.log(spanAttrData, oldSlideData);
+			// oldSlide.classList.remove("active-slide");
+			
+			
+			// var newSlide = document.querySelector("li[data-slide='" + spanAttrData +"']");
+			// newSlide.classList.add("active-slide");
+
+			// this.CompareData(oldSlideData, spanAttrData);
+			
+			currentUl = document.querySelector("ul.val-list-slider");
+			currentUl.style.cssText = "";
+			currentUl.style.cssText = "transform: translateX(-200px); transition: 1s;";
+			
+			// currentUl.style.cssText = "transition: translateX(-200px) 1s linear;";
+		};
+		_slider.prototype.Reset = function(currentUl) {
+			currentUl.style.cssText = "";
+		}
+
+
+		var sli = new _slider(document.querySelector("ul.val-list-slider"),
+			document.querySelector("div.val-display-controls"));
+	</script>	
+</body>
+</html>
