@@ -41,12 +41,13 @@
 			};
 			this.CreateSpans(currentUl, divForSpans);
 			console.log("yes 1");
+			this.clicked = 1;
 		};
 		_slider.prototype.CreateSpans = function(currentUl, divForSpans) {	
 			var readySpanHTML = "";
 			for (var i = 0; i < currentUl.children.length; i++) {
 				currentUl.children[i].setAttribute("data-slide", i+1);
-				currentUl.children[i].innerHTML = (i+i);
+				// currentUl.children[i].innerHTML = (i+i);
 				readySpanHTML += "<span data-controls='"+ (i+1) +"'>" + i + "</span>";
 			};
 			divForSpans.innerHTML = readySpanHTML;
@@ -58,7 +59,12 @@
 			var spanAttrData = e.target.getAttribute("data-controls");
 			var oldSlideData = document.querySelector("li[data-slide='" + spanAttrData +"']")
 				.getAttribute("data-slide");
-			console.log(spanAttrData, oldSlideData);
+
+			// if ((Math.abs(spanAttrData - this.ckicked)) > 1 ) {
+				
+			// }
+			// clicked = spanAttrData;
+			// console.log(spanAttrData, oldSlideData);
 			// oldSlide.classList.remove("active-slide");
 			
 			
@@ -68,7 +74,7 @@
 			// this.CompareData(oldSlideData, spanAttrData);
 			
 			currentUl = document.querySelector("ul.val-list-slider");
-			currentUl.style.cssText = "";
+			// currentUl.style.cssText = "";
 			currentUl.style.cssText = "transform: translateX(-200px); transition: 1s;";
 			
 			// currentUl.style.cssText = "transition: translateX(-200px) 1s linear;";
