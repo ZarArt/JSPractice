@@ -40,45 +40,38 @@
 				console.log("no 1");
 			};
 			this.CreateSpans(currentUl, divForSpans);
-			console.log("yes 1");
+			
 			this.clicked = 1;
+			console.log("yes 1", this.clicked);
 		};
 		_slider.prototype.CreateSpans = function(currentUl, divForSpans) {	
 			var readySpanHTML = "";
 			for (var i = 0; i < currentUl.children.length; i++) {
 				currentUl.children[i].setAttribute("data-slide", i+1);
-				// currentUl.children[i].innerHTML = (i+i);
+				currentUl.children[i].innerHTML = (i+i);
 				readySpanHTML += "<span data-controls='"+ (i+1) +"'>" + i + "</span>";
 			};
 			divForSpans.innerHTML = readySpanHTML;
 			divForSpans.children[0].classList.add("active-slide");
 			divForSpans.addEventListener("click", this.ChangeSlide);
 		};
-		_slider.prototype.ChangeSlide = function(e) {
-			
+		_slider.prototype.ChangeSlide = function(e) {			
 			var spanAttrData = e.target.getAttribute("data-controls");
 			var oldSlideData = document.querySelector("li[data-slide='" + spanAttrData +"']")
 				.getAttribute("data-slide");
-
-			// if ((Math.abs(spanAttrData - this.ckicked)) > 1 ) {
-				
-			// }
-			// clicked = spanAttrData;
-			// console.log(spanAttrData, oldSlideData);
-			// oldSlide.classList.remove("active-slide");
-			
-			
-			// var newSlide = document.querySelector("li[data-slide='" + spanAttrData +"']");
-			// newSlide.classList.add("active-slide");
-
-			// this.CompareData(oldSlideData, spanAttrData);
-			
 			currentUl = document.querySelector("ul.val-list-slider");
-			// currentUl.style.cssText = "";
-			currentUl.style.cssText = "transform: translateX(-200px); transition: 1s;";
-			
-			// currentUl.style.cssText = "transition: translateX(-200px) 1s linear;";
-		};
+			if(spanAttrData > this.clicked){
+				currentUl.style.cssText = "transform: translateX(" +
+				(200 * (-1) * (spanAttrData > this.clicked)) + "px); transition: 1s";
+			}			
+			else{
+				currentUl.style.cssText = "transform: translateX(" +
+				(200 * (spanAttrData > this.clicked)) + "px); transition: 1s"
+			}
+			clicked = spanAttrData;
+			console.log(clicked);
+		}
+
 		_slider.prototype.Reset = function(currentUl) {
 			currentUl.style.cssText = "";
 		}
